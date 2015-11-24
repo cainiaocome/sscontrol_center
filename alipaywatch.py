@@ -11,6 +11,7 @@ import re
 from bs4 import BeautifulSoup as bs
 
 from prepare_database import check_and_insert_transfer_record
+from config import ALIPAYWATCH_PASSWORD
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_address = ('0.0.0.0', 5599)
@@ -24,7 +25,7 @@ while True:
     
     try:
         msg = json.loads(data)
-        if not msg['password']=='alipaywatch':
+        if not msg['password']==ALIPAYWATCH_PASSWORD:
             continue
     except:
         print address
