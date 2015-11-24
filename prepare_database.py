@@ -67,8 +67,6 @@ def update_table_transfer_to_used(transfer_id):
     dbconn.commit()
     dbconn.close()
     
-    return data
-    
 create_table_user = '''
 create table if not exists user
 (

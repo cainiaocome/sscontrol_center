@@ -13,7 +13,7 @@ import logging
 import threading
 
 import re
-from prepare_database import get_not_used_transfer_record, check_user, insert_user, get_not_expired_user, get_a_free_port
+from prepare_database import get_not_used_transfer_record, check_user, insert_user, get_not_expired_user, get_a_free_port, update_table_transfer_to_used
 
 logging.basicConfig(filename='log.sscontrol_center', format='%(asctime)s %(message)s', level=logging.DEBUG)
 
@@ -45,11 +45,14 @@ def update_user():  # update active_user table and expired_user table
                 expire_time = create_time + datetime.timedelta(days=30)
             if x['amount']==150: # #3
                 expire_time = create_time + datetime.timedelta(days=30)
-        insert_user((transfer_id, server, port, password, create_time, expire_time, expired_or_not))
+            else:
+                continue
+            insert_user((transfer_id, server, port, password, create_time, expire_time, expired_or_not))
 
 def main():
     thread_update_user = threading.Thread(target=update_user)
     thread_update_user.setDaemon(True)
+    thread_update_user.start()
     while True:
         time.sleep(3600)
 
